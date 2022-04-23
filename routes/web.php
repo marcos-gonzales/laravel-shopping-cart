@@ -20,4 +20,7 @@ Route::get('/', function () {
     return Inertia::render('Shop/Index.vue');
 });
 Route::resource('/shop', ShopController::class);
-Route::get('/register', [AuthController::class, 'RegisterView'])->name('auth.register');
+Route::get('/register', [AuthController::class, 'RegisterView'])->name('auth.registerView');
+Route::post('/register', [AuthController::class, 'Register'])->name('auth.register');
+
+Route::get('/login', [AuthController::class, 'LoginView'])->name('auth.login');

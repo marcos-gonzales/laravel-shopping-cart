@@ -8,10 +8,11 @@
             need we have. Seriously, check us out. sign up now &nbsp;
             <i class="fa-solid fa-hand-point-down text-white"></i>
         </p>
-        <form class="border border-gray-700 my-6 min-h-screen p-8">
+        <form @submit.prevent="form.post('/register')" class="border border-gray-700 my-6 min-h-screen p-8">
             <div class="my-8">
                 <i class="fa-solid fa-user-tie absolute mt-4 ml-4 text-xl"></i>
                 <input
+                    v-model="form.name"
                     type="text"
                     name="name"
                     placeholder="Elon Musk"
@@ -22,6 +23,7 @@
             <div class="my-8">
                 <i class="fa-solid fa-envelope absolute mt-4 ml-4 text-xl"></i>
                 <input
+                    v-model="form.email"
                     type="email"
                     name="email"
                     placeholder="teslaadmin@example.org"
@@ -32,6 +34,7 @@
             <div class="my-8">
                 <i class="fa-solid fa-lock absolute mt-4 ml-4 text-xl"></i>
                 <input
+                    v-model="form.password"
                     type="password"
                     name="password"
                     placeholder="********"
@@ -41,7 +44,10 @@
 
             <div class="my-8">
                 <input
+                    vmodel="form.terms_of_service"
                     type="checkbox"
+                    :checked="form.terms_of_service"
+                    @input="form.terms_of_service = $event.target.checked"
                     name="terms-of-service"
                     placeholder="********"
                     class="bg-gray-900 w-full rounded-full p-4 border border-gray-400 pl-12"
@@ -62,7 +68,27 @@
 </template>
 
 <script>
-export default {};
+import { useForm } from '@inertiajs/inertia-vue3'
+
+export default {
+  setup() {
+    const form = useForm({
+      name: null,
+      email: null,
+      password: null,
+      terms_of_service: ''
+    });
+
+    function register() {
+      Inertia.post('/register', form)
+    }
+
+    return {
+      form, 
+      register 
+    };
+  }
+};
 </script>
 
 <style lang="scss" scoped></style>
