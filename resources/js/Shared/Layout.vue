@@ -1,6 +1,6 @@
 <template>
     <div class="bg-gray-900 w-full">
-        <header class="border border-b-2-gray-800 py-4">
+        <header class="border border-b-2-gray-800 py-4 px-1">
             <nav>
                 <ul class="flex justify-end space-x-2 mx-1">
                     <Link href="/" class="text-xl hover:text-gray-400 grow">
@@ -10,7 +10,7 @@
                         Register
                     </Link>
                     <Link href="/login" class="hover:text-gray-400">
-                        Loginjj
+                        Login
                     </Link>
                 </ul>
             </nav>

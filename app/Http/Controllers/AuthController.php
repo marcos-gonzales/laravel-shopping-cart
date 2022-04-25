@@ -21,7 +21,8 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
             'terms_of_service' => ['required', 'boolean'],
         ]);
-        User::create(array_merge($input, ['is_admin' => 0]));
+        $user = User::create(array_merge($input, ['is_admin' => 0]));
+        $user->update(['password' => bcrypt(Request::input('password'))]);
 
         return redirect()->route('auth.login')->with('success', 'Thanks for registering!');
     }

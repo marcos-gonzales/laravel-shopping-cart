@@ -8,7 +8,8 @@
             need we have. Seriously, check us out. sign up now &nbsp;
             <i class="fa-solid fa-hand-point-down text-white"></i>
         </p>
-        <form @submit.prevent="form.post('/register')" class="border border-gray-700 my-6 min-h-screen p-8">
+        <form @submit.prevent="form.post('/register')" class="border border-gray-700 my-6 p-8">
+                <h4 class="text-2xl text-center tracking-widest">Register Now..</h4>
             <div class="my-8">
                 <i class="fa-solid fa-user-tie absolute mt-4 ml-4 text-xl"></i>
                 <input
@@ -26,7 +27,7 @@
                     v-model="form.email"
                     type="email"
                     name="email"
-                    placeholder="teslaadmin@example.org"
+                    placeholder="elon@example.org"
                     class="bg-gray-900 w-full rounded-full p-4 border border-gray-400 pl-12"
                 />
             </div>
@@ -57,7 +58,7 @@
             </div>
 
             <div class="mt-8 flex">
-                <button class="text-2xl border border-white p-8 w-3/4 mx-auto rounded-full bg-blue-800 text-black hover:bg-yellow-200 ease-in duration-200">Sign up</button>
+                <button class="text-2xl border border-white p-4 w-3/4 mx-auto rounded-full bg-blue-800 text-black hover:bg-yellow-200 ease-in duration-200">Sign up</button>
             </div>
 
             <div class="mt-6 flex justify-center">
