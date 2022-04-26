@@ -6,31 +6,52 @@
                     <Link href="/" class="text-xl hover:text-gray-400 grow">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </Link>
-                    <Link href="/register" class="hover:text-gray-400">
+                                        
+                    <Link v-if="!$page.props.user" href="/register" class="hover:text-gray-400">
                         Register
                     </Link>
-                    <Link href="/login" class="hover:text-gray-400">
+                    <form  v-else @submit.prevent="logout">
+                        <button class="hover:text-gray-400" method="post">
+                            Logout <i class="fa-solid fa-heart-crack text-red-600"></i>
+                        </button>
+                     </form>
+                    <Link v-if="!$page.props.user" href="/login" class="hover:text-gray-400">
                         Login
                     </Link>
+
                 </ul>
             </nav>
         </header>
         <div class="container w-3/4 mx-auto" style="margin-top: 2em;">
+        <FlashMessages :success="success" :errors="errors"/>
             <slot />
         </div>
     </div>
 </template>
 <script>
 import { Link } from "@inertiajs/inertia-vue3";
-import { components } from "vue";
+import { Inertia } from '@inertiajs/inertia'
+import FlashMessages from './FlashMessages';
 
 export default {
     data() {
-        return {};
+        return {
+            success: {}
+        };
     },
     components: {
         Link,
+        FlashMessages
     },
+    props: {
+        errors: Object,
+        success: Object
+    },
+    methods: {
+        logout() {
+            Inertia.post('/logout');
+        }
+    }
 };
 </script>
 

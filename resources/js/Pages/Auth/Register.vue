@@ -8,8 +8,11 @@
             need we have. Seriously, check us out. sign up now &nbsp;
             <i class="fa-solid fa-hand-point-down text-white"></i>
         </p>
-        <form @submit.prevent="form.post('/register')" class="border border-gray-700 my-6 p-8">
-                <h4 class="text-2xl text-center tracking-widest">Register Now..</h4>
+        <form
+            @submit.prevent="form.post('/register')"
+            class="border border-gray-700 my-6 p-8"
+        >
+            <h4 class="text-2xl text-center tracking-widest">Register Now..</h4>
             <div class="my-8">
                 <i class="fa-solid fa-user-tie absolute mt-4 ml-4 text-xl"></i>
                 <input
@@ -52,43 +55,58 @@
                     name="terms-of-service"
                     placeholder="********"
                     class="bg-gray-900 w-full rounded-full p-4 border border-gray-400 pl-12"
-                    style="max-width: 10%;"
+                    style="max-width: 10%"
                 />
-                <label class="text-sm">I agree to the <a href="#" class="text-blue-300 underline">terms of service</a> regulations listed.</label>
+                <label class="text-sm"
+                    >I agree to the
+                    <a href="#" class="text-blue-300 underline"
+                        >terms of service</a
+                    >
+                    regulations listed.</label
+                >
             </div>
 
             <div class="mt-8 flex">
-                <button class="text-2xl border border-white p-4 w-3/4 mx-auto rounded-full bg-blue-800 text-black hover:bg-yellow-200 ease-in duration-200">Sign up</button>
+                <button
+                    class="text-2xl border border-white p-4 w-3/4 mx-auto rounded-full bg-blue-800 text-black hover:bg-yellow-200 ease-in duration-200"
+                >
+                    Sign up
+                </button>
             </div>
 
             <div class="mt-6 flex justify-center">
-              <p class="text-gray-400 text-center">Already have an account? <a href="/login" class="text-blue-800 underline">Login</a></p>
+                <p class="text-gray-400 text-center">
+                    Already have an account?
+                    <a href="/login" class="text-blue-800 underline">Login</a>
+                </p>
             </div>
         </form>
     </div>
 </template>
 
 <script>
-import { useForm } from '@inertiajs/inertia-vue3'
+import { useForm } from "@inertiajs/inertia-vue3";
 
 export default {
-  setup() {
-    const form = useForm({
-      name: null,
-      email: null,
-      password: null,
-      terms_of_service: ''
-    });
+    props: {
+    },
+    setup() {
+        const form = useForm({
+            name: null,
+            email: null,
+            password: null,
+            terms_of_service: "",
+        });
 
-    function register() {
-      Inertia.post('/register', form)
-    }
+        function register() {
+            Inertia.post("/register", form);
+        }
 
-    return {
-      form, 
-      register 
-    };
-  }
+        return {
+            form,
+            register,
+        };
+    },
 };
 </script>
 
