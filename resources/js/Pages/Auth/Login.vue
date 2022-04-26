@@ -5,7 +5,7 @@
             <i class="fa-solid fa-money-bill-1"></i>
         </h2>
         <form
-            @submit.prevent="form.post('/register')"
+            @submit.prevent="form.post('/login')"
             class="border border-gray-700 my-6 p-8"
         >
             <h4 class="text-center tracking-wide text-xl">
@@ -13,15 +13,16 @@
             </h4>
             <Input
                 name="email"
-                model="email"
+                v-model:textValue="form.email"
                 placeholder="bonitalatina@live.com"
                 icon="fa-solid fa-envelope"
             />
             <Input
                 name="password"
-                model="password"
+                v-model:textValue="form.password"
                 placeholder="******"
                 icon="fa-solid fa-lock"
+                type="password"
             />
             <Button color="bg-blue-800 hover:bg-yellow-200">Login</Button>
             <div class="mt-6 flex justify-center">
@@ -39,10 +40,23 @@
 <script>
 import Input from "../../Shared/Input.vue";
 import Button from "../../Shared/Button.vue";
+import { useForm } from '@inertiajs/inertia-vue3'
 
 export default {
-    data() {
-        return {};
+    setup() {
+      const form = useForm({
+        email: null,
+        password: null
+      })
+
+      function login() {
+        Inertia.post('/login', form);
+      }
+
+      return {
+        form,
+        login
+        };
     },
     components: {
         Input,

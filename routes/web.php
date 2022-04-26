@@ -21,6 +21,8 @@ Route::get('/', function () {
 });
 Route::resource('/shop', ShopController::class);
 Route::get('/register', [AuthController::class, 'RegisterView'])->name('auth.registerView');
-Route::post('/register', [AuthController::class, 'Register'])->name('auth.register');
+Route::post('/register', [AuthController::class, 'Register']);
 
 Route::get('/login', [AuthController::class, 'LoginView'])->name('auth.login');
+Route::post('/login', [AuthController::class, 'Login']);
+Route::post('/logout', [AuthController::class, 'Logout']);
