@@ -60,7 +60,6 @@ class AuthController extends Controller
         Auth::logout();
         Request::session()->invalidate(); 
         Request::session()->regenerateToken();
- 
         return redirect('/')->with('success', 'you have logged out.');
     }
 }
