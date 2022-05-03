@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Category;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class ShopController extends Controller
@@ -24,7 +25,9 @@ class ShopController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Shop/Create', [
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -35,7 +38,7 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd(Request::all());
     }
 
     /**

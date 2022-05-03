@@ -1,6 +1,6 @@
 <template>
   <div>
-  supoookljsfdf
+    Index
   </div>
 </template>
 
