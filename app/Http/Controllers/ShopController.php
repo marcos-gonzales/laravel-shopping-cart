@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class ShopController extends Controller
 {
@@ -15,7 +18,9 @@ class ShopController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Shop/Index');
+        return Inertia::render('Shop/Index', [
+            'products' => Product::paginate(10)
+        ]);
     }
 
     /**
@@ -38,7 +43,22 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
-        dd(Request::all());
+        $slug = Str::slug(Request::input('name'));
+        $input = Request::validate([
+            'name' => 'string|required',
+            'description' => 'string|required',
+            'price' => 'integer|required',
+            'file_upload' => 'required|file'
+        ]);
+        $product = Product::create(array_merge($input, ['slug' => $slug]));
+
+        $image = Request::file('file_upload')->getClientOriginalName();
+        Request::file('file_upload')->storeAs('public/products/' .$product->id, $image);
+        $product->update(['file_path' => $image]); 
+        $product->categories()->attach(Request::input('category'));
+
+        return redirect()->route('shop.index')->with('success', 'Product successfully created.');
+
     }
 
     /**
