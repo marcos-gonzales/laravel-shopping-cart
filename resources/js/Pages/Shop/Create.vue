@@ -34,8 +34,9 @@
             <div class="flex items-center space-x-2">
                 <p class="uppercase">Categories:</p>
                 <select
+                    multiple="multiple"
                     @change="updateCategory($event)"
-                    class="bg-gray-900 w-full rounded-full p-4 border border-gray-400 cursor-pointer"
+                    class="bg-gray-900 w-full  border border-gray-400 cursor-pointer"
                 >
                     <option v-for="category in categories" :value="category.id">
                         {{ category.slug }}

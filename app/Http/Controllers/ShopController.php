@@ -19,7 +19,7 @@ class ShopController extends Controller
     public function index()
     {
         return Inertia::render('Shop/Index', [
-            'products' => Product::paginate(10)
+            'products' => Product::with('categories')->paginate(10)
         ]);
     }
 
@@ -54,7 +54,7 @@ class ShopController extends Controller
 
         $image = Request::file('file_upload')->getClientOriginalName();
         Request::file('file_upload')->storeAs('public/products/' .$product->id, $image);
-        $product->update(['file_path' => $image]); 
+        $product->update(['file_path' => $image]);
         $product->categories()->attach(Request::input('category'));
 
         return redirect()->route('shop.index')->with('success', 'Product successfully created.');

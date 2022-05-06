@@ -12,7 +12,7 @@
     <div v-if="errors">
         <ul>
             <li
-                v-for="error in errors"
+                v-for="(error, index) in errors"
                 :key="index"
                 v-text="error"
                 class="text-red-600"
@@ -24,9 +24,9 @@
 <script>
 export default {
     props: {
-        success: Object,
+        success: String,
         errors: Object,
-        error: Object
+        error: String
     },
 };
 </script>

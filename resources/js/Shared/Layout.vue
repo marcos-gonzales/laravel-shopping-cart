@@ -1,12 +1,12 @@
 <template>
-    <div class="bg-gray-900 w-full">
+    <div class="bg-gray-900 w-full mb-12">
         <header class="border border-b-2-gray-800 py-4 px-1">
             <nav>
                 <ul class="flex justify-end space-x-2 mx-1">
                     <Link href="/" class="text-xl hover:text-gray-400 grow">
-                        <i class="fa-solid fa-cart-shopping"></i>
+                        <i class="fa-solid fa-cart-shopping drop-shadow-md"></i>
                     </Link>
-                                        
+
                     <Link v-if="!$page.props.user" href="/register" class="hover:text-gray-400">
                         Register
                     </Link>
@@ -45,7 +45,7 @@ export default {
     },
     props: {
         errors: Object,
-        success: Object
+        success: String
     },
     methods: {
         logout() {
