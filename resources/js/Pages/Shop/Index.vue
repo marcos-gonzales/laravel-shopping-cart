@@ -1,33 +1,65 @@
 <template>
     <div class="max-w-40">
-      <div class="grid grid-cols-4 mx-auto mb-8" style="grid-gap: 1rem;">
-        <div v-for="(product, index) in products.data" class="border border-gray-400 cursor-pointer hover:scale-105  h-full">
-            <h3 class="text-lg text-center">{{ product.name }}</h3>
-<!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
-            <img :src="product.file_path" alt="{{product.name}}">
-            <p class="text-sm text-gray-500 mt-4 p-1.5">{{ product.description.substring(0,90) }} ...</p>
-            <div class="flex mt-3">
-                <small v-for="category in product.categories" class="rounded shrink mx-1 p-1.5" :style="randomColor()">{{category.name}}</small>
+        <div class="grid mx-auto mb-8 grid-cols-1" style="grid-gap: 1rem;">
+            <div class="border border-gray-400 cursor-pointer hover:scale-105  h-full hover:opacity-100">
+                <h3 class="text-3xl text-center">{{ product.name }}</h3>
+                <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
+                <img :src="product.file_path" alt="{{product.name}}" class="mx-auto w-full opacity-70 hover:opacity-100">
+                <p class="text-lg text-gray-500 mt-4 p-1.5 mx-8">{{ product.description.substring(0,300) }} ...</p>
+                <div class="flex mt-3 items-center">
+                    <Link v-for="category in product.categories" :href="'/shop/category/' + category.id" class="rounded mx-1 p-1.5 self-center" :style="randomColor()">{{category.name}}</Link>
+                </div>
             </div>
         </div>
-      </div>
-        <Pagination :links="products.links" />
+
+        <div class="grid mx-auto mb-8 grid-cols-3" style="grid-gap: 1rem;">
+            <div class="border border-gray-400 cursor-pointer hover:scale-105  h-full" v-for="product in productThree">
+                <h3 class="text-lg text-center">{{ product.name }}</h3>
+                <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
+                <img :src="product.file_path" alt="{{product.name}}" class="mx-auto opacity-70 hover:opacity-100">
+                <p class="text-sm text-gray-500 mt-4 p-1.5">{{ product.description.substring(0,90) }} ...</p>
+                <div class="flex mt-3">
+                    <Link v-for="category in product.categories" :href="'/shop/category/' + category.id" class="rounded shrink mx-1 p-1.5 self-center" :style="randomColor()">{{category.name}}</Link>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid mx-auto mb-8 grid-cols-5" style="grid-gap: 1rem;">
+            <div class="border border-gray-400 cursor-pointer hover:scale-105  h-full" v-for="product in productOthers.data">
+                <h3 class="text-lg text-center">{{ product.name }}</h3>
+                <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
+                <img :src="product.file_path" alt="{{product.name}}" class="mx-auto opacity-70 hover:opacity-100">
+                <p class="text-sm text-gray-500 mt-4 p-1.5">{{ product.description.substring(0,90) }} ...</p>
+                <div class="flex mt-3">
+                    <Link v-for="category in product.categories" :href="'/shop/category/' + category.id" class="rounded shrink mx-1 p-1.5 self-center" :style="randomColor()">{{category.name}}</Link>
+                </div>
+            </div>
+        </div>
+        <Pagination :links="productOthers.links" />
     </div>
+
+
 </template>
 
 <script>
 import Pagination from '../../Shared/Pagination';
+import { ref } from 'vue'
+import {Link} from '@inertiajs/inertia-vue3';
 
 export default {
     data() {
-        return {}
+        return {
+        }
 
     },
     props: {
-        products: Object,
+        product: Object,
+        productThree: Object,
+        productOthers: Object
     },
     components: {
-        Pagination
+        Pagination,
+        Link
     },
     methods: {
         randomColor() {

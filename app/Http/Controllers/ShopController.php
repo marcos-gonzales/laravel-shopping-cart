@@ -18,8 +18,21 @@ class ShopController extends Controller
      */
     public function index()
     {
+        $product = Product::with('categories')->first();
+
+
+        $productThree = Product::with('categories')->whereIn('id',[2,3,4])->get();
+
+        $productOthers = Product::with('categories')->where('id', '!=', 1,)
+            ->where('id', '!=', 2)
+            ->where('id', '!=', 3)
+            ->where('id', '!=', 4)
+            ->paginate(10);
+
         return Inertia::render('Shop/Index', [
-            'products' => Product::with('categories')->paginate(10)
+            'product' => $product,
+            'productThree' => $productThree,
+            'productOthers' => $productOthers
         ]);
     }
 
