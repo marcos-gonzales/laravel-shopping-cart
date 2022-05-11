@@ -95,7 +95,7 @@ export default {
             name: null,
             email: null,
             password: null,
-            terms_of_service: "",
+            terms_of_service: true,
         });
 
         function register() {

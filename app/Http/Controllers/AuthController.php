@@ -24,10 +24,13 @@ class AuthController extends Controller
                 'password' => ['required', 'string'],
                 'terms_of_service' => ['required', 'boolean'],
             ]);
+
             $user = User::create(array_merge($input, ['is_admin' => 0]));
             $user->update(['password' => bcrypt(Request::input('password'))]);
-    
+
+            Auth::login($user);
             return redirect()->to('/')->with('success', 'Thanks for registering!');
+
         } else {
             return redirect()->route('auth.login')->with('error', 'There is already an account with this email.');
         }
@@ -49,16 +52,16 @@ class AuthController extends Controller
             Request::session()->regenerate();
             return redirect()->to('/')->with('success', 'You have successfully logged in.');
         }
- 
+
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
     }
 
-    public function Logout() 
+    public function Logout()
     {
         Auth::logout();
-        Request::session()->invalidate(); 
+        Request::session()->invalidate();
         Request::session()->regenerateToken();
         return redirect('/')->with('success', 'you have logged out.');
     }

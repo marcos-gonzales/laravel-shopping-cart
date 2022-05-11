@@ -82,7 +82,11 @@ class ShopController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Product::with('categories')->findOrfail($id);
+
+        return Inertia::render('Shop/Show', [
+            'product' => $product
+        ]);
     }
 
     /**

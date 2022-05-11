@@ -1,7 +1,7 @@
 <template>
     <div class="max-w-40">
-        <div class="grid mx-auto mb-8 grid-cols-3" style="grid-gap: 1rem;">
-            <div class="border border-gray-400 cursor-pointer hover:scale-105  h-full hover:opacity-100" v-for="product in products.data" @click="show(product)">
+        <div class="grid mx-auto mb-8 grid-cols-1" style="grid-gap: 1rem;">
+            <div class="border border-gray-400 cursor-pointer hover:scale-105 h-full hover:opacity-100" @click="show(product)">
                 <h3 class="text-3xl text-center">{{ product.name }}</h3>
                 <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
                 <img :src="product.file_path" alt="{{product.name}}" class="mx-auto w-full opacity-70 hover:opacity-100">
@@ -11,11 +11,12 @@
                 </div>
             </div>
         </div>
-
-<!--        <Pagination :links="productOthers.links" />-->
     </div>
-
-
+    <div>
+        <small class="text-sm text-gray-400">Not what you're looking for?
+            <Link :href="url" class="text-blue-600 underline">Go back</Link>
+        </small>
+    </div>
 </template>
 
 <script>
@@ -26,11 +27,12 @@ import {Inertia} from "@inertiajs/inertia";
 export default {
     data() {
         return {
+            url: Inertia.restore('url')
         }
 
     },
     props: {
-        products: Object
+        product: Object,
     },
     components: {
         Pagination,
@@ -40,9 +42,9 @@ export default {
         randomColor() {
             return "background-color: #" + ((1<<24)*Math.random() | 0).toString(16);
         },
-        show(product) {
-            Inertia.get(`/shop/${product.id}`)
-        }
     },
+    mounted() {
+        console.log(Inertia.restore('url'));
+    }
 };
 </script>

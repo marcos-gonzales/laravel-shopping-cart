@@ -6,7 +6,11 @@
                     <Link href="/" class="text-xl hover:text-gray-400 grow">
                         <i class="fa-solid fa-cart-shopping drop-shadow-md"></i>
                     </Link>
-
+                    <select class="bg-gray-900 border border-gray-400 cursor-pointer rounded">
+                        <option v-for="category in categories" @click="categoriesIndex(category.id)">
+                            {{category.slug}}
+                        </option>
+                    </select>
                     <Link v-if="!$page.props.user" href="/register" class="hover:text-gray-400">
                         Register
                     </Link>
@@ -41,15 +45,20 @@ export default {
     },
     components: {
         Link,
-        FlashMessages
+        FlashMessages,
+
     },
     props: {
         errors: Object,
-        success: String
+        success: String,
+        categories: Array
     },
     methods: {
         logout() {
             Inertia.post('/logout');
+        },
+        categoriesIndex(id) {
+            Inertia.get(`/shop/category/${id}`)
         }
     }
 };

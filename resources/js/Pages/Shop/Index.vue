@@ -1,7 +1,7 @@
 <template>
     <div class="max-w-40">
         <div class="grid mx-auto mb-8 grid-cols-1" style="grid-gap: 1rem;">
-            <div class="border border-gray-400 cursor-pointer hover:scale-105  h-full hover:opacity-100">
+            <div class="border border-gray-400 cursor-pointer hover:scale-105 h-full hover:opacity-100" @click="viewProduct(product)">
                 <h3 class="text-3xl text-center">{{ product.name }}</h3>
                 <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
                 <img :src="product.file_path" alt="{{product.name}}" class="mx-auto w-full opacity-70 hover:opacity-100">
@@ -13,7 +13,7 @@
         </div>
 
         <div class="grid mx-auto mb-8 grid-cols-3" style="grid-gap: 1rem;">
-            <div class="border border-gray-400 cursor-pointer hover:scale-105  h-full" v-for="product in productThree">
+            <div class="border border-gray-400 cursor-pointer hover:scale-105  h-full" v-for="product in productThree" @click="viewProduct(product)">
                 <h3 class="text-lg text-center">{{ product.name }}</h3>
                 <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
                 <img :src="product.file_path" alt="{{product.name}}" class="mx-auto opacity-70 hover:opacity-100">
@@ -25,7 +25,7 @@
         </div>
 
         <div class="grid mx-auto mb-8 grid-cols-5" style="grid-gap: 1rem;">
-            <div class="border border-gray-400 cursor-pointer hover:scale-105  h-full" v-for="product in productOthers.data">
+            <div class="border border-gray-400 cursor-pointer hover:scale-105  h-full" v-for="product in productOthers.data" @click="viewProduct(product)">
                 <h3 class="text-lg text-center">{{ product.name }}</h3>
                 <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
                 <img :src="product.file_path" alt="{{product.name}}" class="mx-auto opacity-70 hover:opacity-100">
@@ -45,6 +45,7 @@
 import Pagination from '../../Shared/Pagination';
 import { ref } from 'vue'
 import {Link} from '@inertiajs/inertia-vue3';
+import {Inertia} from "@inertiajs/inertia";
 
 export default {
     data() {
@@ -64,6 +65,10 @@ export default {
     methods: {
         randomColor() {
            return "background-color: #" + ((1<<24)*Math.random() | 0).toString(16);
+        },
+        viewProduct(product) {
+            Inertia.remember(window.location.href, 'url');
+            Inertia.get(`/shop/${product.id}`);
         }
     },
 };
