@@ -31,7 +31,7 @@
                 <img :src="product.file_path" alt="{{product.name}}" class="mx-auto opacity-70 hover:opacity-100">
                 <p class="text-sm text-gray-500 mt-4 p-1.5">{{ product.description.substring(0,90) }} ...</p>
                 <div class="flex mt-3">
-                    <Link v-for="category in product.categories" :href="'/shop/category/' + category.id" class="rounded shrink mx-1 p-1.5 self-center" :style="randomColor()">{{category.name}}</Link>
+                    <Link v-for="category in product.categories" :href="'/shop/category/' + category.id" class="rounded shrink mx-1 p-1.5 self-center text-xs" :style="randomColor()">{{category.name}}</Link>
                 </div>
             </div>
         </div>
@@ -43,15 +43,14 @@
 
 <script>
 import Pagination from '../../Shared/Pagination';
-import { ref } from 'vue'
 import {Link} from '@inertiajs/inertia-vue3';
 import {Inertia} from "@inertiajs/inertia";
 
 export default {
     data() {
         return {
+            url: window.location.href
         }
-
     },
     props: {
         product: Object,

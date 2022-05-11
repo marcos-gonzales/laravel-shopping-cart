@@ -36,11 +36,11 @@ class AuthController extends Controller
         }
 
     }
-
-    public function LoginView()
-    {
-        return Inertia::render('Auth/Login');
-    }
+//
+//    public function LoginView()
+//    {
+//        return Inertia::render('Auth/Login');
+//    }
 
     public function login()
     {

@@ -5,7 +5,7 @@
                 <h3 class="text-3xl text-center">{{ product.name }}</h3>
                 <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
                 <img :src="product.file_path" alt="{{product.name}}" class="mx-auto w-full opacity-70 hover:opacity-100">
-                <p class="text-lg text-gray-500 mt-4 p-1.5 mx-8">{{ product.description.substring(0,300) }} ...</p>
+                <p class="text-lg text-gray-500 mt-4 p-1.5 mx-8">{{ product.description }}</p>
                 <div class="flex mt-3 items-center">
                     <Link v-for="category in product.categories" :href="'/shop/category/' + category.id" class="rounded mx-1 p-1.5 self-center" :style="randomColor()">{{category.name}}</Link>
                 </div>
@@ -14,7 +14,7 @@
     </div>
     <div>
         <small class="text-sm text-gray-400">Not what you're looking for?
-            <Link :href="url" class="text-blue-600 underline">Go back</Link>
+            <button @click="goBack" class="text-blue-600 underline">Go back</button>
         </small>
     </div>
 </template>
@@ -27,7 +27,6 @@ import {Inertia} from "@inertiajs/inertia";
 export default {
     data() {
         return {
-            url: Inertia.restore('url')
         }
 
     },
@@ -42,9 +41,9 @@ export default {
         randomColor() {
             return "background-color: #" + ((1<<24)*Math.random() | 0).toString(16);
         },
+        goBack() {
+            history.back()
+        }
     },
-    mounted() {
-        console.log(Inertia.restore('url'));
-    }
 };
 </script>
