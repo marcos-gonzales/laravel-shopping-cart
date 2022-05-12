@@ -1,11 +1,16 @@
 <template>
     <div class="max-w-40">
         <div class="grid mx-auto mb-8 grid-cols-1" style="grid-gap: 1rem;">
-            <div class="border border-gray-400 cursor-pointer hover:scale-105 h-full hover:opacity-100" @click="show(product)">
+            <div class="border border-gray-400 cursor-pointer h-full hover:opacity-100" @click="show(product)">
                 <h3 class="text-3xl text-center">{{ product.name }}</h3>
                 <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
                 <img :src="product.file_path" alt="{{product.name}}" class="mx-auto w-full opacity-70 hover:opacity-100">
                 <p class="text-lg text-gray-500 mt-4 p-1.5 mx-8">{{ product.description }}</p>
+                <div class="w-1/2">
+                    <form>
+                        <Button color="bg-white hover:bg-red-300"><i class="fa-solid fa-plus"></i>Add to cart</Button>
+                    </form>
+                </div>
                 <div class="flex mt-3 items-center">
                     <Link v-for="category in product.categories" :href="'/shop/category/' + category.id" class="rounded mx-1 p-1.5 self-center" :style="randomColor()">{{category.name}}</Link>
                 </div>
@@ -21,21 +26,24 @@
 
 <script>
 import Pagination from '../../Shared/Pagination';
-import {Link} from '@inertiajs/inertia-vue3';
-import {Inertia} from "@inertiajs/inertia";
+import {Link, useForm} from '@inertiajs/inertia-vue3';
+import Button from "../../Shared/Button";
 
 export default {
     data() {
         return {
+            form: {
+                quantity: 0
+            }
         }
-
     },
     props: {
         product: Object,
     },
     components: {
         Pagination,
-        Link
+        Link,
+        Button
     },
     methods: {
         randomColor() {

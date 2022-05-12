@@ -531,6 +531,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .w-2\/3 {
   width: 66.666667%;
 }
+.w-1\/2 {
+  width: 50%;
+}
 .max-w-3xl {
   max-width: 48rem;
 }
@@ -751,6 +754,18 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hover\:bg-yellow-200:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(254 240 138 / var(--tw-bg-opacity));
+}
+.hover\:bg-gray-800:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+}
+.hover\:bg-gray-100:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+.hover\:bg-red-300:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 165 165 / var(--tw-bg-opacity));
 }
 .hover\:text-gray-400:hover {
   --tw-text-opacity: 1;
