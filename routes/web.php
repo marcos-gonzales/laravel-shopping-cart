@@ -13,7 +13,8 @@ Route::post('/login', [AuthController::class, 'Login']);
 
 Route::post('/logout', [AuthController::class, 'Logout']);
 
-
+Route::get('/shop/checkout', [ShopController::class, 'checkout']);
 Route::get('/', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/category/{category}', [CategoryController::class, 'index']);
 Route::resource('/shop', ShopController::class);
+

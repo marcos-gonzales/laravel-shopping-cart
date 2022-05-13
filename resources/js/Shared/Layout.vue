@@ -4,13 +4,16 @@
             <nav>
                 <ul class="flex justify-end space-x-2 mx-1">
                     <Link href="/" class="text-xl hover:text-gray-400 grow">
-                        <i class="fa-solid fa-cart-shopping drop-shadow-md"></i>
+                        <img src='/images/logo.png' alt="logo" style="width: 35px; border-radius: 20px;">
                     </Link>
                     <select class="bg-gray-900 border border-gray-400 cursor-pointer rounded">
                         <option v-for="category in categories" @click="categoriesIndex(category.id)">
                             {{category.slug}}
                         </option>
                     </select>
+                    <Link href="/shop/checkout" style="padding: 0 1em;">
+                        <i class="fa-solid fa-cart-shopping drop-shadow-md"></i>
+                    </Link>
                     <Link v-if="!$page.props.user" href="/register" class="hover:text-gray-400">
                         Register
                     </Link>
@@ -19,10 +22,10 @@
                             Logout <i class="fa-solid fa-heart-crack text-red-600"></i>
                         </button>
                      </form>
+
                     <Link v-if="!$page.props.user" href="/login" class="hover:text-gray-400">
                         Login
                     </Link>
-
                 </ul>
             </nav>
         </header>
@@ -40,7 +43,6 @@ import FlashMessages from './FlashMessages';
 export default {
     data() {
         return {
-            success: {}
         };
     },
     components: {

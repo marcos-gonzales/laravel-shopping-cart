@@ -122,4 +122,9 @@ class ShopController extends Controller
     {
         //
     }
+
+    public function checkout()
+    {
+        return Inertia::render('Shop/Checkout');
+    }
 }
