@@ -11,7 +11,7 @@
                             {{category.slug}}
                         </option>
                     </select>
-                    <Link href="/shop/checkout" style="padding: 0 1em;">
+                    <Link href="/checkout/summary" style="padding: 0 1em;">
                         <i class="fa-solid fa-cart-shopping drop-shadow-md"></i>
                     </Link>
                     <Link v-if="!$page.props.user" href="/register" class="hover:text-gray-400">

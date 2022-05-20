@@ -1,19 +1,22 @@
 <template>
     <div class="max-w-40 pb-6">
-        <div class="grid mx-auto mb-8 grid-cols-1 pb-6" style="grid-gap: 1rem;">
-            <div class="border-2 border-t-purple-500 border-r-cyan-400 border-purple-400 bg-white border-cyan-400 cursor-pointer h-full hover:opacity-100 pb-10">
-                <h3 class="text-4xl text-center mb-6 tracking-wider text-black font-bold">{{ product.name }}</h3>
-                <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
-                <img :src="product.file_path" alt="{{product.name}}" class="mx-auto w-full opacity-70 hover:opacity-100 w-3/5">
-                <p class="text-lg text-gray-500 mt-4 p-1.5 mx-8">{{ product.description }}</p>
-                <div class="grid grid-cols-2 place-items-center my-4">
-                        <div class="flex items-center">
-                            <Link v-for="category in product.categories" :href="'/shop/category/' + category.id" class="rounded mx-1 p-1.5 self-center border border-black" :style="randomColor()">{{category.name}}</Link>
+        <div class="grid mx-auto mb-8 grid-cols-1" style="grid-gap: 1rem;">
+            <div class="border-2 border-t-purple-500 border-r-cyan-400 border-b-purple-400 border-l-cyan-400 cursor-pointer h-full hover:opacity-100 z-0 py-4 bg-slate-700" @click="viewProduct(product, $event)">
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <div class="my-4">
+                        <img :src="product.file_path" alt="{{product.name}}" class="mx-auto w-full opacity-70 hover:opacity-100 ml-0 md:ml-4 w-3/4 border shadow-lg">
+                    </div>
+                    <div>
+                        <h3 class="text-3xl text-center tracking-wider mb-4 text-white">{{ product.name }}</h3>
+                        <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
+                        <p class="text-sm md:text-lg text-gray-300 mt-4 p-1.5 mx-8">{{ product.description.substring(0,300) }} ...</p>
+                        <div class="ml-8">
+                            <i class="fa-solid fa-sack-dollar"></i><p class="text-lg text-green-600 m-0 p-1.5 inline-block">{{product.price}}</p>
                         </div>
-                        <button class="bg-black hover:bg-red-300 w-3/5 text-2xl border text-white border-white p-4 mx-auto rounded-full text-black ease-in duration-200 capitalize" @click="addProductToCart(product)" type="button" >
-                            <i class="fa-solid fa-plus"></i>Add to cart
-                        </button>
-                        <p v-if="productAdded" v-text="'Product Added'" class="text-green-800 text-center"></p>
+                        <div class="flex flex-col md:flex-row mt-10 items-center justify-evenly">
+                            <Link v-for="category in product.categories" @click="viewCategory(category.id, $event)" class="border-2 border-gray-600 rounded mx-1 w-full md:w-2/5 text-2xl text-center p-4 self-center z-10 capitalize text-black" :style="randomColor()">{{category.name}}</Link>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,7 +37,8 @@ import {Inertia} from "@inertiajs/inertia";
 export default {
     data() {
         return {
-            productAdded: false
+            productAdded: false,
+            user: null
         }
     },
     props: {
@@ -53,8 +57,20 @@ export default {
             history.back()
         },
         addProductToCart(product) {
+            if (this.user) {
+                Inertia.get('/login');
+            }
             Inertia.post(`/checkout/${product.id}`)
         },
+        viewCategory(categoryId, event) {
+            event.stopPropagation();
+            Inertia.get(`/shop/category/${categoryId}`)
+        }
     },
+    computed: {
+        user() {
+            return this.$page.props.user
+        }
+    }
 };
 </script>

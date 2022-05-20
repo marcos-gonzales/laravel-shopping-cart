@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string('transaction_id');
+            $table->string('transaction_id')->nullable();
             $table->integer('total');
             $table->timestamps();
         });
