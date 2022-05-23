@@ -22,9 +22,8 @@ class Category extends Model
 
     public function scopeShowCategory($query, $categoryId)
     {
-
-        $query->with('categories')->whereHas('categories', function($query) use($categoryId) {
-            $query->where('id', $categoryId);
+        return Product::with('categories')->whereHas('categories', function($q) use($categoryId, $query) {
+            $q->where('id', $categoryId);
         })->paginate();
     }
 }
