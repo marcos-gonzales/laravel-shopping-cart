@@ -19837,10 +19837,10 @@ __webpack_require__.r(__webpack_exports__);
       _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__.Inertia.post('/logout');
     },
     categoriesIndex: function categoriesIndex(id) {
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__.Inertia.get("/shop/category/".concat(id));
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__.Inertia.get("/product/category/".concat(id));
     },
     search: lodash_debounce__WEBPACK_IMPORTED_MODULE_3___default()(function () {
-      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__.Inertia.get("/shop", {
+      _inertiajs_inertia__WEBPACK_IMPORTED_MODULE_1__.Inertia.get("/product", {
         'query': this.query
       });
     }, 300),

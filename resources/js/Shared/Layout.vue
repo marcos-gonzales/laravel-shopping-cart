@@ -123,10 +123,10 @@ export default {
             Inertia.post('/logout');
         },
         categoriesIndex(id) {
-            Inertia.get(`/shop/category/${id}`)
+            Inertia.get(`/product/category/${id}`)
         },
         search: debounce(function() {
-            Inertia.get(`/shop`, {
+            Inertia.get(`/product`, {
                 'query': this.query,
             })
         }, 300),
