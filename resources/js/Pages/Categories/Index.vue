@@ -1,6 +1,6 @@
 <template>
     <div class="max-w-40">
-        <div class="grid mx-auto mb-8 grid-cols-3" style="grid-gap: 1rem;">
+        <div class="grid grid-cols-1 md:grid-cols-3 mx-auto mb-8 " style="grid-gap: 1rem;">
             <div class="border-2 border-t-purple-500 border-r-cyan-400 border-purple-400  bg-slate-700 border-cyan-400 bg-white cursor-pointer h-full hover:opacity-100 z-0 pb-8" v-for="product in products.data" @click="show(product)">
                 <h3 class="text-3xl text-center tracking-wider mb-6 text-white font-bold">{{ product.name }}</h3>
                 <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
@@ -44,11 +44,11 @@ export default {
             return "background-color: #" + ((1<<24)*Math.random() | 0).toString(16);
         },
         show(product) {
-            Inertia.get(`/shop/${product.id}`)
+            Inertia.get(`/product/${product.id}`)
         },
         viewCategory(categoryId, event) {
             event.stopPropagation();
-            Inertia.get(`/shop/category/${categoryId}`)
+            Inertia.get(`/product/category/${categoryId}`)
         }
     },
 };

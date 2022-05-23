@@ -2,38 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductStoreRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
+use Inertia\Response;
 
-class ShopController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Product $product) :Response
     {
-        $product = Product::with('categories')->first();
-
-
-        $productThree = Product::with('categories')->whereIn('id',[2,3,4])->get();
-
-        $productOthers = Product::with('categories')->where('id', '!=', 1,)
-            ->where('id', '!=', 2)
-            ->where('id', '!=', 3)
-            ->where('id', '!=', 4)
-            ->paginate(10);
-
-        return Inertia::render('Shop/Index', [
-            'product' => $product,
-            'productThree' => $productThree,
-            'productOthers' => $productOthers
+        return Inertia::render('Product/Index', [
+            'products' => Product::getProducts()
         ]);
+
     }
 
     /**
@@ -41,9 +32,9 @@ class ShopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create() :Response
     {
-        return Inertia::render('Shop/Create', [
+        return Inertia::render('Product/Create', [
             'categories' => Category::all()
         ]);
     }
@@ -54,19 +45,14 @@ class ShopController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
         $slug = Str::slug(Request::input('name'));
-        $input = Request::validate([
-            'name' => 'string|required',
-            'description' => 'string|required',
-            'price' => 'integer|required',
-            'file_upload' => 'required|file'
-        ]);
-        $product = Product::create(array_merge($input, ['slug' => $slug]));
+        $product = Product::create(array_merge($request->validated(), ['slug' => $slug]));
 
         $image = Request::file('file_upload')->getClientOriginalName();
         Request::file('file_upload')->storeAs('public/products/' .$product->id, $image);
+
         $product->update(['file_path' => $image]);
         $product->categories()->attach(Request::input('category'));
 
@@ -80,12 +66,10 @@ class ShopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id) :Response
     {
-        $product = Product::with('categories')->findOrfail($id);
-
-        return Inertia::render('Shop/Show', [
-            'product' => $product
+        return Inertia::render('Product/Show', [
+            'product' => Product::showProduct($id)
         ]);
     }
 
@@ -123,8 +107,8 @@ class ShopController extends Controller
         //
     }
 
-    public function checkout()
+    public function checkout() :Response
     {
-        return Inertia::render('Shop/Checkout');
+        return Inertia::render('Product/Checkout');
     }
 }

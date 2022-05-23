@@ -30,11 +30,7 @@ class CheckoutController extends Controller
             ->withSum('products', 'price')
             ->get();
 
-       $total = Order::where('user_id', auth()->user()->id)
-           ->withSum('products', 'price')
-            ->get();
-
-        return Inertia::render('Shop/Checkout',[
+        return Inertia::render('Product/Checkout',[
             'productsInCart' => $productsInCart,
         ]);
     }

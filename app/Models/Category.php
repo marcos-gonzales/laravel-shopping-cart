@@ -19,4 +19,12 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function scopeShowCategory($query, $categoryId)
+    {
+
+        $query->with('categories')->whereHas('categories', function($query) use($categoryId) {
+            $query->where('id', $categoryId);
+        })->paginate();
+    }
 }

@@ -16,6 +16,9 @@
                         <div class="flex flex-col md:flex-row mt-10 items-center justify-evenly">
                             <Link v-for="category in product.categories" @click="viewCategory(category.id, $event)" class="border-2 border-gray-600 rounded mx-1 w-full md:w-2/5 text-2xl text-center p-4 self-center z-10 capitalize text-black" :style="randomColor()">{{category.name}}</Link>
                         </div>
+                        <div class="flex justify-center">
+                            <button class="border border-white p-4 w-1/2 bg-sky-800 text-gray-300 hover:bg-sky-600  hover:text-white rounded-full text-black ease-in duration-200 mt-8 ml-16" @click="addProductToCart(product)">Add To Cart</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -64,7 +67,7 @@ export default {
         },
         viewCategory(categoryId, event) {
             event.stopPropagation();
-            Inertia.get(`/shop/category/${categoryId}`)
+            Inertia.get(`/product/category/${categoryId}`)
         }
     },
     computed: {

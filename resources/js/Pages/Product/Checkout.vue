@@ -1,7 +1,7 @@
 <template>
     <div class="max-w-40">
         <p v-if="error" class="text-red-800">Something went wrong fetching your items</p>
-        <div class="grid grid-cols-1 md:grid-cols-3 items-center auto-rows-auto h-full">
+        <div class="grid grid-cols-1 md:grid-cols-3 auto-rows-auto h-full">
             <div class="md:col-span-2">
                 <div v-for="(productInCart, key) in productsInCart" :key="key" class="gap-x-8 border border-sky-100 py-6 px-2 bg-slate-700 w-3/4 my-12 grid grid-cols-1 md:grid-cols-3 rounded">
                     <div class="flex items-center">
@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <div class="bg-sky-900 col-span-1 mt-20 rounded p-2 h-1/2 mb-80 border border-sky-100">
+            <div class="bg-sky-900 col-span-1 mt-12 rounded p-2 h-1/2 mb-80 border border-sky-100">
                 <div v-if="total == 0">
                     <Link class="text-blue-600 underline" href="/">Try adding some items to your cart</Link>
                 </div>

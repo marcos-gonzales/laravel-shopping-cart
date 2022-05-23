@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
+use Laravel\Cashier\Cashier;
 
 class AuthController extends Controller
 {
@@ -27,6 +28,7 @@ class AuthController extends Controller
 
             $user = User::create(array_merge($input, ['is_admin' => 0]));
             $user->update(['password' => bcrypt(Request::input('password'))]);
+            $user->createAsStripeCustomer();
 
             Auth::login($user);
             return redirect()->to('/')->with('success', 'Thanks for registering!');

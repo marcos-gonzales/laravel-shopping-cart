@@ -7,7 +7,7 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
         </div>
-        <form @submit.prevent="form.post('/shop')" method="post">
+        <form @submit.prevent="form.post('/product')" method="post">
             <Input
                 name="name"
                 v-model:textValue="form.name"
@@ -69,7 +69,7 @@ export default {
         });
 
         function createProduct() {
-            Inertia.post("/shop", form), {
+            Inertia.post("/product", form), {
               forceFormData: true
             };
         }

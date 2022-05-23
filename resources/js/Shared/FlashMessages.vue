@@ -2,7 +2,7 @@
     <div
         v-if="$page.props.success"
         v-text="$page.props.success"
-        class="text-green-600"
+        class="text-green-600 bg-white p-4 mb-8"
     ></div>
     <div
         v-if="$page.props.error"
