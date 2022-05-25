@@ -5,16 +5,16 @@
             <div class="md:col-span-2">
                 <div v-for="(productInCart, key) in productsInCart" :key="key" class="gap-x-8 border border-sky-100 py-6 px-2 bg-slate-700 w-3/4 my-12 grid grid-cols-1 md:grid-cols-3 rounded">
                     <div class="flex items-center">
-                       <img :src="productInCart.products[0].file_path" alt="{{productInCart.products[0].name}}" style="height: 100px; width: 100px;" class="col-span-1 border-2 border-gray-600 ">
+                       <img :src="productInCart.products[0].file_path" alt="{{productInCart.products[0].name}}" style="height: 100px; width: 100px; word-break: keep-all" class="col-span-1 border-2 border-gray-600">
                     </div>
                     <div class="flex flex-col items-start">
                        <h3 class="text-lg text-center text-gray-200 font-bold" v-text="productInCart.products[0].name"></h3>
                         <!-- <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name"> -->
-                       <small class="text-lg text-lime-500"><span class="text-yellow-400">$</span>{{productInCart.products_sum_price}}</small>
+                       <small class="text-lg text-lime-500"><span class="text-yellow-400">$</span>{{ parseInt(productInCart.products_sum_price).toFixed(2) }}</small>
                         <small class="text-gray-400">qty: {{productInCart.products.length}}</small>
                     </div>
                         <div class="self-center mt-6 md:mt-0">
-                            <button class="text-sm p-2 border border-black rounded text-gray-300 ease-in duration-200 bg-sky-500 capitalize bg:accent-pink-400" @click="destroy(productInCart.products[0].pivot.order_id)">remove from cart</button>
+                            <button class="text-sm p-2 w-full border border-black rounded text-gray-300 ease-in duration-200 bg-sky-500 capitalize hover:bg-pink-400" @click="destroy(productInCart.products[0].pivot.order_id)">remove from cart</button>
                         </div>
                 </div>
             </div>
@@ -25,8 +25,27 @@
                 </div>
 
                 <div v-else class="mb-40">
-                    <p>Total due today: {{total.reduce((num, a) => (num + Number(a)), 0)}}</p>
-                    <button class="text-sm p-2 border border-black rounded text-gray-300 ease-in duration-200 bg-sky-500 capitalize bg:accent-pink-400" @click="purchase">Purchase now</button>
+                    <p class="text-xl">Total due
+                        <span class="text-yellow-200 mr-2">
+                            today:
+                        </span>
+                        ${{total.reduce((num, a) => (num + Number(a)), 0)}}
+                    </p>
+
+                    <div class="mt-4">
+                        <label>Card Holder Name</label>
+                        <input id="card-holder-name" type="text" class="pl-1 mb-2 text-gray-400 w-full" placeholder="John Doe..">
+                    </div>
+
+                    <label>Card Number</label>
+                    <div id="card-element">
+
+                    </div>
+
+                    <button class="text-sm p-2 border border-black w-1/2 flex justify-center mx-auto rounded text-gray-300 ease-in duration-200
+                        bg-sky-500 capitalize hover:bg-pink-400" @click="processPayment">
+                        Purchase now
+                    </button>
                 </div>
             </div>
         </div>
@@ -38,10 +57,12 @@ import Pagination from '../../Shared/Pagination';
 import {Link} from '@inertiajs/inertia-vue3';
 import Button from "../../Shared/Button";
 import {Inertia} from "@inertiajs/inertia";
-
+import { loadStripe } from '@stripe/stripe-js';
 export default {
     data() {
         return {
+            stripe: {},
+            cardElement: {},
             products: [],
             error: false,
             productKeys:  [],
@@ -49,11 +70,12 @@ export default {
     },
     props: {
         productsInCart: Array,
+        user: Object
     },
     components: {
         Pagination,
         Link,
-        Button
+        Button,
     },
     methods: {
         destroy(product) {
@@ -61,19 +83,58 @@ export default {
                 Inertia.delete(`/checkout/${product}`)
             }
         },
-        purchase() {
-            console.log('clicked')
-        }
-    },
-    mounted() {
+        async processPayment() {
+            this.paymentProcessing = true;
 
+            const {paymentMethod, error} = await this.stripe.createPaymentMethod(
+                'card', this.cardElement, {
+                    billing_details: {
+                        name: this.user.name,
+                        email: this.user.email,
+                        address: {
+                            line1: this.user.address,
+                            city: this.user.city,
+                            state: this.user.state,
+                            postal_code: this.user.zip_code
+                        }
+                    }
+                }
+            )
+
+            if (error) {
+                this.paymentProcessing = false;
+                alert(error);
+            } else {
+                this.user.paymentMethodId = paymentMethod.id;
+                this.user.customerAmount = this.total.reduce((num, a) => (num * 100 + Number(a)), 0)
+            }
+
+            this.paymentProcessing = false;
+
+            Inertia.post('/checkout/order', {
+                'user': this.user,
+                'amount': this.total.reduce((num, a) => (num * 100 + Number(a)), 0)
+            });
+        },
     },
     computed: {
         total(total) {
             return this.productsInCart.map((price) => {
                 return price.products_sum_price;
             })
-        }
+        },
+    },
+    async mounted() {
+        this.stripe = await loadStripe('pk_test_5bMMJoXwkUHUXkxN8IbVCbtL00BxYtU3IW');
+
+        const elements = this.stripe.elements();
+        this.cardElement = elements.create('card', {
+            classes: {
+                base: 'bg-white p-1 text-gray-400'
+            }
+        });
+
+        this.cardElement.mount('#card-element')
     }
 }
 </script>

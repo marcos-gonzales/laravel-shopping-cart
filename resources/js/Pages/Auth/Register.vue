@@ -36,6 +36,50 @@
             </div>
 
             <div class="my-8">
+                <i class="fa-solid fa-location-dot absolute mt-4 ml-4 text-xl"></i>
+                <input
+                    v-model="form.address"
+                    type="text"
+                    name="address"
+                    placeholder="123 Street"
+                    class="bg-gray-900 w-full rounded-full p-4 border border-gray-400 pl-12"
+                />
+            </div>
+
+            <div class="my-8">
+                <i class="fa-solid fa-city absolute mt-4 ml-4 text-xl"></i>
+                <input
+                    v-model="form.city"
+                    type="text"
+                    name="city"
+                    placeholder="SLC"
+                    class="bg-gray-900 w-full rounded-full p-4 border border-gray-400 pl-12"
+                />
+            </div>
+
+            <div class="my-8">
+                <i class="fa-solid fa-flag-usa absolute mt-4 ml-4 text-xl"></i>
+                <input
+                    v-model="form.state"
+                    type="text"
+                    name="state"
+                    placeholder="Utah"
+                    class="bg-gray-900 w-full rounded-full p-4 border border-gray-400 pl-12"
+                />
+            </div>
+
+            <div class="my-8">
+                <i class="fa-solid fa-envelope absolute mt-4 ml-4 text-xl"></i>
+                <input
+                    v-model="form.zip_code"
+                    type="text"
+                    name="zip_code"
+                    placeholder="@your zip code goes here"
+                    class="bg-gray-900 w-full rounded-full p-4 border border-gray-400 pl-12"
+                />
+            </div>
+
+            <div class="my-8">
                 <i class="fa-solid fa-lock absolute mt-4 ml-4 text-xl"></i>
                 <input
                     v-model="form.password"
@@ -96,6 +140,10 @@ export default {
             email: null,
             password: null,
             terms_of_service: true,
+            address: null,
+            city: null,
+            state: null,
+            zip_code: null
         });
 
         function register() {

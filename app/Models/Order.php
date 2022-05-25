@@ -14,7 +14,8 @@ class Order extends Model
         'user_id',
         'transaction_id',
         'total',
-        'quantity'
+        'quantity',
+        'is_complete'
     ];
 
     public function products() :BelongsToMany

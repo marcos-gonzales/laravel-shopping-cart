@@ -48,7 +48,7 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $request)
     {
         $slug = Str::slug(Request::input('name'));
-        $product = Product::create(array_merge($request->validated(), ['slug' => $slug]));
+        $product = Product::create(array_merge($request->validated(), ['slug' => $slug, 'price' => $request->price * 100]));
 
         $image = Request::file('file_upload')->getClientOriginalName();
         Request::file('file_upload')->storeAs('public/products/' .$product->id, $image);

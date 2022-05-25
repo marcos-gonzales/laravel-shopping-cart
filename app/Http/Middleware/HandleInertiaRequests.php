@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Category;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
@@ -42,7 +43,8 @@ class HandleInertiaRequests extends Middleware
             'success' => $request->session()->get('success'),
             'error' => $request->session()->get('error'),
             'user' => auth()->user() ?? null,
-            'categories' => Category::all()
+            'categories' => Category::all(),
+            'productsInCart' => Order::with('products')->where('user_id', auth()->user()?->id)->where('is_complete', null)->count() ?? null
         ]);
     }
 }

@@ -11,7 +11,7 @@
                         <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
                         <p class="text-sm text-gray-300 mt-4 p-1.5">{{ product.description.substring(0,90) }} ...</p>
                         <div class="ml-2">
-                            <i class="fa-solid fa-sack-dollar"></i><p class="text-lg text-green-600 m-0 p-1.5 inline-block">{{product.price}}</p>
+                            <i class="fa-solid fa-sack-dollar"></i><p class="text-lg text-green-600 m-0 p-1.5 inline-block">{{parseInt(product.price).toFixed(2)}}</p>
                         </div>
                         <div class="flex mt-3 justify-evenly">
                             <Link v-for="category in product.categories" @click="viewCategory(category.id, $event)" class="text-black rounded shrink mx-1 p-1.5 self-center text-xs z-10 border-2 border-gray-600 capitalize text-black" :style="randomColor()">{{category.name}}</Link>
@@ -30,7 +30,6 @@
 import Pagination from '../../Shared/Pagination';
 import {Link} from '@inertiajs/inertia-vue3';
 import {Inertia} from "@inertiajs/inertia";
-import lodash from 'lodash';
 
 export default {
     props: {

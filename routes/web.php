@@ -20,6 +20,11 @@ Route::resource('/product', ProductController::class);
 Route::get('/product/category/{category}', [CategoryController::class, 'index']);
 Route::get('/product/{query}', [ProductController::class, 'searchProduct']);
 
+Route::post('/checkout/order', [CheckoutController::class, 'processPayment'])->middleware('auth');
 Route::post('/checkout/{product}', [CheckoutController::class, 'store'])->middleware('auth');
-Route::get('/checkout/summary', [CheckoutController::class, 'index'])->middleware('auth');
+Route::get('/checkout/order', [CheckoutController::class, 'index'])->middleware('auth');
 Route::delete('/checkout/{product}', [CheckoutController::class, 'destroy'])->middleware('auth');
+
+Route::get('/checkout/summary', [CheckoutController::class, 'summary'])
+    ->middleware('auth')
+    ->name('checkout.summary');

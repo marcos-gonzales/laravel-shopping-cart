@@ -13,7 +13,7 @@
                                 <img src='/images/logo.png' alt="logo" style="width: 35px; border-radius: 20px;">
                             </Link>
 
-                            <Link href="/checkout/summary" style="padding: 0 1em;">
+                            <Link href="/checkout/order" style="padding: 0 1em;">
                                 <i class="fa-solid fa-cart-shopping drop-shadow-md"></i>
                             </Link>
                         </div>
@@ -33,8 +33,6 @@
                                 </button>
                             </form>
                         </div>
-
-
 
                         <div class="grid grid-cols-2 justify-center">
                             <form @keyup="search" class="grow text-gray-500" style="margin-left: 0; margin-right: 0;">
@@ -69,11 +67,17 @@
                         </option>
                     </select>
 
-                    <Link href="/checkout/summary" style="padding: 0 1em;">
-                        <i class="fa-solid fa-cart-shopping drop-shadow-md"></i>
-                    </Link>
+                    <div class="flex items-center">
+                        <Link href="/checkout/order" style="padding: 0 1em;">
+                            <i class="fa-solid fa-cart-shopping drop-shadow-md text-xl"> </i>
+                        </Link>
+                        <div class="absolute bg-green-500 rounded-full text-center ml-8 mb-5" style="width: 25px;">
+                            <span class="">{{productsInCart >= 1 ? productsInCart : ''}}</span>
+                        </div>
+                    </div>
 
-                    <Link v-if="!$page.props.user" href="/register" class="hover:text-gray-400">
+
+                    <Link v-if="!$page.props.user" href="/register" class="hover:text-gray-400 flex items-center">
                         Register
                     </Link>
 
@@ -83,7 +87,7 @@
                         </button>
                      </form>
 
-                    <Link v-if="!$page.props.user" href="/login" class="hover:text-gray-400">
+                    <Link v-if="!$page.props.user" href="/login" class="hover:text-gray-400 flex items-center">
                         Login
                     </Link>
                 </ul>
@@ -105,7 +109,9 @@ export default {
     data() {
         return {
             query: '',
-            showNav: false
+            showNav: false,
+            addPaymentStatus: 0,
+            addPaymentStatusError: '',
         };
     },
     components: {
@@ -116,7 +122,8 @@ export default {
     props: {
         errors: Object,
         success: String,
-        categories: Array
+        categories: Array,
+        productsInCart: Object
     },
     methods: {
         logout() {
@@ -132,7 +139,7 @@ export default {
         }, 300),
         toggleNav() {
             this.showNav = !this.showNav;
-        }
+        },
     },
 };
 </script>

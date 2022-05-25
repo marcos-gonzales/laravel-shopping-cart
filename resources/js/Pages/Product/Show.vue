@@ -1,7 +1,7 @@
 <template>
     <div class="max-w-40 pb-6">
         <div class="grid mx-auto mb-8 grid-cols-1" style="grid-gap: 1rem;">
-            <div class="border-2 border-t-purple-500 border-r-cyan-400 border-b-purple-400 border-l-cyan-400 cursor-pointer h-full hover:opacity-100 z-0 py-4 bg-slate-700" @click="viewProduct(product, $event)">
+            <div class="border-2 border-t-purple-500 border-r-cyan-400 border-b-purple-400 border-l-cyan-400 h-full hover:opacity-100 z-0 py-4 bg-slate-700">
                 <div class="grid grid-cols-1 md:grid-cols-2">
                     <div class="my-4">
                         <img :src="product.file_path" alt="{{product.name}}" class="mx-auto w-full opacity-70 hover:opacity-100 ml-0 md:ml-4 w-3/4 border shadow-lg">
@@ -41,7 +41,6 @@ export default {
     data() {
         return {
             productAdded: false,
-            user: null
         }
     },
     props: {
