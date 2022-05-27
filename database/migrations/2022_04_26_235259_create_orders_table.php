@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->string('transaction_id')->nullable();
             $table->integer('total');
-            $table->boolean('is_complete')->nullable();
+            $table->boolean('is_complete')->nullable()->default(0);
             $table->timestamps();
         });
     }

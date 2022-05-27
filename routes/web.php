@@ -25,6 +25,4 @@ Route::post('/checkout/{product}', [CheckoutController::class, 'store'])->middle
 Route::get('/checkout/order', [CheckoutController::class, 'index'])->middleware('auth');
 Route::delete('/checkout/{product}', [CheckoutController::class, 'destroy'])->middleware('auth');
 
-Route::get('/checkout/summary', [CheckoutController::class, 'summary'])
-    ->middleware('auth')
-    ->name('checkout.summary');
+Route::get('/checkout/summary/{order}', [CheckoutController::class, 'summary'])->middleware('auth')->name('checkout.summary');

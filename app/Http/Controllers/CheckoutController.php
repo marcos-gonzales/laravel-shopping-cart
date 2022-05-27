@@ -14,48 +14,41 @@ class CheckoutController extends Controller
 {
     public function store(Request $request, Product $product)
     {
-        $order = Order::where('user_id', auth()->user()->id)
-            ->where('is_complete', null);
-        if($order) {
-            $order = Order::updateOrCreate([
+        $order = Order::getOrder();
+        if($order->count() == 0) {
+          $order = Order::create([
                 'user_id' => auth()->user()->id,
                 'transaction_id' => null,
-                'total' => $product->price
+                'total' => $product->price,
+                'is_complete' => 0
             ]);
         } else {
-            $order = Order::create([
+            $order->update([
                 'user_id' => auth()->user()->id,
                 'transaction_id' => null,
-                'total' => $product->price
+                'total' => $product->price,
+                'is_complete' => 0
             ]);
-
         }
+
         $order->products()->attach(['product_id' => $product->id]);
         $order->syncChanges();
-
         return redirect()->back()->with('success', 'added to cart.');
     }
 
     public function index()
     {
-        $productsInCart = Order::with('products')
-            ->where('user_id', auth()->user()->id)
-            ->where('is_complete',  null)
-            ->withSum('products', 'price')
-            ->get();
+
+
         return Inertia::render('Product/Checkout',[
-            'productsInCart' => $productsInCart,
+            'productsInCart' => Order::productsInCart(),
         ]);
     }
 
     public function destroy($product)
     {
-        $order = Order::where('user_id', auth()->user()->id)
-            ->where('is_complete', null)
-            ->with(['products' => function($query) use($product) {
-            $query->where('product_id', $product);
-        }])->first();
-        $order->delete();
+        Order::removeProductFromCart($product);
+
         return redirect()->back()->with('success', 'item deleted from cart.');
     }
 
@@ -66,19 +59,22 @@ class CheckoutController extends Controller
             $request->user['customerAmount'], $request->user['paymentMethodId']
         );
 
-        $order = Order::where('user_id', auth()->user()->id)->first();
-        $order->is_complete =  1;
+        $order = Order::getOrder();
+        $order->is_complete = 1;
         $order->save();
-        return redirect()->route('checkout.summary')->with('success', 'Order has been processed');
+
+        return redirect()->route('checkout.summary', ['order' => $order])->with('success', 'Order has been processed');
 
         } catch(Exception $e) {
             throw new Exception("Something went wrong $e");
         }
     }
 
-    public function summary()
+    public function summary(Order $order)
     {
-        dd("hi");
+        return Inertia::render('Product/Summary',[
+            'order' => $order->products
+        ]);
     }
 }
 

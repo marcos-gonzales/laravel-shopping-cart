@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -34,7 +35,7 @@ class DatabaseSeeder extends Seeder
         Product::factory()->count(50)->create();
 
         $categories = Category::all();
-
+        User::create(['name' => 'Marcos Gonzales', 'email' => 'marcos@example.org', 'password' => bcrypt('123456'), 'terms_of_service' => 1, 'is_admin' => 1]);
         Product::all()->each(function ($product) use($categories) {
             $product->categories()->attach($categories->random(rand(1, 2))->pluck('id', 'name')->toArray());
         });

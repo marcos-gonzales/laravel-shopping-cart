@@ -3,19 +3,21 @@
         <p v-if="error" class="text-red-800">Something went wrong fetching your items</p>
         <div class="grid grid-cols-1 md:grid-cols-3 auto-rows-auto h-full">
             <div class="md:col-span-2">
-                <div v-for="(productInCart, key) in productsInCart" :key="key" class="gap-x-8 border border-sky-100 py-6 px-2 bg-slate-700 w-3/4 my-12 grid grid-cols-1 md:grid-cols-3 rounded">
-                    <div class="flex items-center">
-                       <img :src="productInCart.products[0].file_path" alt="{{productInCart.products[0].name}}" style="height: 100px; width: 100px; word-break: keep-all" class="col-span-1 border-2 border-gray-600">
-                    </div>
-                    <div class="flex flex-col items-start">
-                       <h3 class="text-lg text-center text-gray-200 font-bold" v-text="productInCart.products[0].name"></h3>
-                        <!-- <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name"> -->
-                       <small class="text-lg text-lime-500"><span class="text-yellow-400">$</span>{{ parseInt(productInCart.products_sum_price).toFixed(2) }}</small>
-                        <small class="text-gray-400">qty: {{productInCart.products.length}}</small>
-                    </div>
-                        <div class="self-center mt-6 md:mt-0">
-                            <button class="text-sm p-2 w-full border border-black rounded text-gray-300 ease-in duration-200 bg-sky-500 capitalize hover:bg-pink-400" @click="destroy(productInCart.products[0].pivot.order_id)">remove from cart</button>
+                <div v-for="(productInCart, key) in productsInCart" :key="key">
+                    <div v-for="(product, key) in productInCart.products" :key="key" class="gap-x-8 border border-sky-100 py-6 px-2 bg-slate-700 w-3/4 my-12 grid grid-cols-1 md:grid-cols-3 rounded">
+                        <div class="flex items-center">
+                            <img :src="product.file_path" alt="{{product.name}}" style="height: 100px; width: 100px; word-break: keep-all" class="col-span-1 border-2 border-gray-600">
                         </div>
+                        <div class="flex flex-col items-start">
+                            <h3 class="text-lg text-center text-gray-200 font-bold" v-text="product.name"></h3>
+<!--                             <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
+                            <small class="text-lg text-lime-500"><span class="text-yellow-400">$</span>{{ parseInt(product.price).toFixed(2) }}</small>
+                            <small class="text-gray-400">qty: {{product.pivot.quantity}}</small>
+                        </div>
+                        <div class="self-center mt-6 md:mt-0">
+                            <button class="text-sm p-2 w-full border border-black rounded text-gray-300 ease-in duration-200 bg-sky-500 capitalize hover:bg-pink-400" @click="destroy(product.pivot.product_id)">remove from cart</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 

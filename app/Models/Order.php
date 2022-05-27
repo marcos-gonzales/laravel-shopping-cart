@@ -20,6 +20,42 @@ class Order extends Model
 
     public function products() :BelongsToMany
     {
-        return $this->BelongsToMany(Product::class)->withPivot('quantity');
+        return $this->BelongsToMany(Product::class)->withPivot('quantity', 'product_id', 'order_id');
+    }
+
+    public function scopeGetOrder($query)
+    {
+        $order = Order::with('products')->where('user_id', auth()->user()->id)->where('is_complete', 0)->first();
+
+        $order = $query->where('user_id', auth()->user()->id)
+            ->where('is_complete', 0)->latest()->first();
+        if($order == null) {
+            return null;
+        } else {
+            return $order;
+        }
+
+    }
+
+    public function scopeProductsInCart($query)
+    {
+        return $query->with('products')
+            ->where('user_id', auth()->user()->id)
+            ->where('is_complete',  0)
+            ->withSum('products', 'price')
+            ->get();
+    }
+
+    public function scopeRemoveProductFromCart($query, $product)
+    {
+        $order = $query->where('user_id', auth()->user()->id)
+            ->where('is_complete', 0)
+            ->with(['products' => function($q) use($product) {
+                $q->where('product_id', $product);
+            }])->first();
+
+        $order->products()->detach(['product_id' => $product]);
+        $order->syncChanges();
+        return $order;
     }
 }
