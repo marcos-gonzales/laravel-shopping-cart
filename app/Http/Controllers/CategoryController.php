@@ -12,9 +12,6 @@ class CategoryController extends Controller
 {
     public function index (Category $category)
     {
-//        $products = Product::with('categories')->whereHas('categories', function($query) use($categoryId) {
-//            $query->where('id', $categoryId);
-//        })->paginate();
         return Inertia::render('Categories/Index', [
            'products' => Category::showCategory($category->id)
        ]);

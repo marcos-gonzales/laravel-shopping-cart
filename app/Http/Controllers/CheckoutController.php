@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CheckoutRequest;
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\Product;
 use Exception;
@@ -26,7 +27,7 @@ class CheckoutController extends Controller
             $order->update([
                 'user_id' => auth()->user()->id,
                 'transaction_id' => null,
-                'total' => $product->price,
+                'total' => $order->total + $product->price,
                 'is_complete' => 0
             ]);
         }
@@ -40,7 +41,7 @@ class CheckoutController extends Controller
     {
 
 
-        return Inertia::render('Product/Checkout',[
+        return Inertia::render('Checkout/Checkout',[
             'productsInCart' => Order::productsInCart(),
         ]);
     }
@@ -56,7 +57,7 @@ class CheckoutController extends Controller
     {
         try {
         $stripeCharge = $request->user()->charge(
-            $request->user['customerAmount'], $request->user['paymentMethodId']
+            $request->user['customerAmount'] * 100, $request->user['paymentMethodId']
         );
 
         $order = Order::getOrder();
@@ -70,10 +71,20 @@ class CheckoutController extends Controller
         }
     }
 
-    public function summary(Order $order)
+    public function summaryIndex()
     {
+        return Inertia::render('Checkout/SummaryIndex', [
+            'orders' => Order::getOrders()
+        ]);
+    }
+
+    public function summaryShow(Order $order)
+    {
+        $category = $order->products->load('categories')->first()->categories->first();
+
         return Inertia::render('Product/Summary',[
-            'order' => $order->products
+            'order' => $order->products->load('categories'),
+            'similarProducts' => Category::similarProducts($category)
         ]);
     }
 }

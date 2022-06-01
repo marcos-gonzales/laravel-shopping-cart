@@ -11,7 +11,7 @@
                         <!--            <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
                         <p class="text-sm md:text-lg text-gray-300 mt-4 p-1.5 mx-8">{{ product.description.substring(0,300) }} ...</p>
                         <div class="ml-8">
-                            <i class="fa-solid fa-sack-dollar"></i><p class="text-lg text-green-600 m-0 p-1.5 inline-block">{{product.price}}</p>
+                            <i class="fa-solid fa-sack-dollar"></i><p class="text-lg text-green-600 m-0 p-1.5 inline-block">{{parseInt(product.price).toFixed(2)}}</p>
                         </div>
                         <div class="flex flex-col md:flex-row mt-10 items-center justify-evenly">
                             <Link v-for="category in product.categories" @click="viewCategory(category.id, $event)" class="border-2 border-gray-600 rounded mx-1 w-full md:w-2/5 text-2xl text-center p-4 self-center z-10 capitalize text-black" :style="randomColor()">{{category.name}}</Link>

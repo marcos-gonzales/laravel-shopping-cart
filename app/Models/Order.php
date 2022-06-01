@@ -23,6 +23,11 @@ class Order extends Model
         return $this->BelongsToMany(Product::class)->withPivot('quantity', 'product_id', 'order_id');
     }
 
+    public function categories()
+    {
+        return $this->hasManyThrough(Category::class,Product::class);
+    }
+
     public function scopeGetOrder($query)
     {
         $order = Order::with('products')->where('user_id', auth()->user()->id)->where('is_complete', 0)->first();
@@ -57,5 +62,10 @@ class Order extends Model
         $order->products()->detach(['product_id' => $product]);
         $order->syncChanges();
         return $order;
+    }
+
+    public function scopeGetOrders($query)
+    {
+        return $query->with('products')->where('user_id', auth()->user()->id)->get();
     }
 }
