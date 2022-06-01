@@ -23,7 +23,7 @@
 
             <div class="bg-sky-900 col-span-1 mt-12 rounded p-2 h-1/2 mb-80 border border-sky-100">
                 <div v-if="total == 0">
-                    <Link class="text-blue-600 underline" href="/public">Try adding some items to your cart</Link>
+                    <Link class="text-blue-600 underline" href="/">Try adding some items to your cart</Link>
                 </div>
 
                 <div v-else class="mb-40">

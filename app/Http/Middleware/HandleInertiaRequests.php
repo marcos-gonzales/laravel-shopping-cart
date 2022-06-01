@@ -44,9 +44,7 @@ class HandleInertiaRequests extends Middleware
             'error' => $request->session()->get('error'),
             'user' => auth()->user() ?? null,
             'categories' => Category::all(),
-            'productsInCart' => Order::with(['product' => function($query) {
-                $query->withPivot('order_id', auth()->user()->id)->count();
-            }])
+            'productsInCartCount' => Order::productsInCart()[0]->products()->count()
             ]);
     }
 }

@@ -10,7 +10,7 @@
                     <i class="fa-solid fa-sack-dollar"></i><p class="text-lg text-green-600 m-0 p-1.5 inline-block">{{product.price}}</p>
                 </div>
                 <div class="flex mt-3 items-center z-50 justify-evenly">
-                    <Link v-for="category in product.categories" @click="viewCategory(category.id, $event)" class="rounded mx-1 p-1.5 self-center z-10 border-2 border-black capitalize text-black" :style="randomColor()">{{category.name}}</Link>
+                    <Link v-for="category in product.categories" @click="viewCategory(category.id, $event)" class="rounded mx-1 p-1.5 self-center z-10 border-2 border-black capitalize text-black text-center basis-1/4" :style="randomColor()">{{category.name}}</Link>
                 </div>
             </div>
         </div>

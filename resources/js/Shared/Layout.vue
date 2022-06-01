@@ -13,7 +13,7 @@
                                 <img src='/images/logo.png' alt="logo" style="width: 35px; border-radius: 20px;">
                             </Link>
 
-                            <Link href="/checkout/order" style="padding: 0 1em;">
+                            <Link v-if="$page.props.user" href="/checkout/order" style="padding: 0 1em;">
                                 <i class="fa-solid fa-cart-shopping drop-shadow-md"></i>
                             </Link>
                         </div>
@@ -67,29 +67,28 @@
                         </option>
                     </select>
 
-                    <div class="flex items-center">
+                    <div v-if="$page.props.user" class="flex items-center">
                         <Link href="/checkout/order" style="padding: 0 1em;">
                             <i class="fa-solid fa-cart-shopping drop-shadow-md text-xl"> </i>
                         </Link>
                         <div class="absolute bg-green-500 rounded-full text-center ml-8 mb-5" style="width: 25px;">
-                            <span class="">{{productsInCart >= 1 ? productsInCart : ''}}</span>
+                            <span class="">{{productsInCartCount >= 1 ? productsInCartCount : ''}}</span>
                         </div>
                     </div>
 
 
-                    <Link v-if="!$page.props.user" href="/register" class="hover:text-gray-400 flex items-center">
-                        Register
+                    <Link v-if="!$page.props.user" href="/login" class="hover:text-gray-400 flex items-center">
+                        Login
                     </Link>
 
-                    <form  v-else @submit.prevent="logout">
+                    <Link v-if="$page.props.user" href="/checkout/summary" class="hover:text-gray-400 flex items-center">My Orders</Link>
+
+                    <form  v-if="$page.props.user" @submit.prevent="logout" class="items-center flex">
                         <button class="hover:text-gray-400" method="post">
                             Logout <i class="fa-solid fa-heart-crack text-red-600"></i>
                         </button>
                      </form>
 
-                    <Link v-if="!$page.props.user" href="/login" class="hover:text-gray-400 flex items-center">
-                        Login
-                    </Link>
                 </ul>
             </nav>
         </header>
@@ -123,7 +122,7 @@ export default {
         errors: Object,
         success: String,
         categories: Array,
-        productsInCart: Object
+        productsInCartCount: Number
     },
     methods: {
         logout() {
@@ -141,6 +140,9 @@ export default {
             this.showNav = !this.showNav;
         },
     },
+    created() {
+        console.log(this.productsInCart);
+    }
 };
 </script>
 

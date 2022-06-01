@@ -635,6 +635,15 @@ Ensure the default browser behavior of the `hidden` attribute.
 .grow {
   flex-grow: 1;
 }
+.basis-2 {
+  flex-basis: 0.5rem;
+}
+.basis-1\/2 {
+  flex-basis: 50%;
+}
+.basis-1\/4 {
+  flex-basis: 25%;
+}
 .cursor-pointer {
   cursor: pointer;
 }
@@ -659,6 +668,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 .flex-wrap {
   flex-wrap: wrap;
 }
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
 .items-start {
   align-items: flex-start;
 }
@@ -670,6 +682,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .justify-center {
   justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
 }
 .justify-evenly {
   justify-content: space-evenly;
