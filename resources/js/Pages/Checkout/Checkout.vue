@@ -9,13 +9,13 @@
                             <img :src="product.file_path" alt="{{product.name}}" style="height: 100px; width: 100px; word-break: keep-all" class="col-span-1 border-2 border-gray-600">
                         </div>
                         <div class="flex flex-col items-start">
-                            <h3 class="text-lg text-center text-gray-200 font-bold" v-text="product.name"></h3>
+                            <h3 class="text-lg text-center text-gray-200 font-bold capitalize" v-text="product.name"></h3>
 <!--                             <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
                             <small class="text-lg text-lime-500"><span class="text-yellow-400">$</span>{{ parseInt(product.price).toFixed(2) }}</small>
                             <small class="text-gray-400">qty: {{product.pivot.quantity}}</small>
                         </div>
                         <div class="self-center mt-6 md:mt-0">
-                            <button class="text-sm p-2 w-full border border-black rounded text-gray-300 ease-in duration-200 bg-sky-500 capitalize hover:bg-pink-400" @click="destroy(product.pivot.product_id)">remove from cart</button>
+                            <button class="text-sm p-2 w-full border border-black rounded text-gray-200 ease-in duration-200 bg-sky-500 capitalize hover:bg-pink-400 hover:text-white" @click="destroy(product.pivot.product_id)">remove from cart</button>
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
 
                 <div v-else class="mb-40">
                     <p class="text-xl">Total due
-                        <span class="text-yellow-200 mr-2">
+                        <span class="text-yellow-300 contrast-125 mr-2 font-bold">
                             today:
                         </span>
                         ${{total.reduce((num, a) => (num + Number(a)), 0)}}
@@ -44,8 +44,8 @@
 
                     </div>
 
-                    <button class="text-sm p-2 border border-black w-1/2 flex justify-center mx-auto rounded text-gray-300 ease-in duration-200
-                        bg-sky-500 capitalize hover:bg-pink-400" @click="processPayment">
+                    <button class="text-sm p-2 border border-black w-1/2 flex justify-center mx-auto rounded text-gray-200 ease-in duration-200
+                        bg-sky-500 capitalize hover:bg-pink-400 hover:text-white" @click="processPayment">
                         Purchase now
                     </button>
                 </div>

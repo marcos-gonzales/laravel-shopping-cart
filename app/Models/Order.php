@@ -30,11 +30,9 @@ class Order extends Model
 
     public function scopeGetOrder($query)
     {
-        $order = Order::with('products')->where('user_id', auth()->user()->id)->where('is_complete', 0)->first();
-
         $order = $query->where('user_id', auth()->user()->id)
             ->where('is_complete', 0)->latest()->first();
-        if($order == null) {
+        if ($order == null) {
             return null;
         } else {
             return $order;
@@ -45,7 +43,7 @@ class Order extends Model
     public function scopeProductsInCart($query)
     {
         return $query->with('products')
-            ->where('user_id', auth()->user()->id)
+            ->where('user_id', auth()->user()->id ?? null)
             ->where('is_complete',  0)
             ->withSum('products', 'price')
             ->get();
@@ -53,7 +51,7 @@ class Order extends Model
 
     public function scopeRemoveProductFromCart($query, $product)
     {
-        $order = $query->where('user_id', auth()->user()->id)
+        $order = $query->where('user_id', auth()->user()->id ?? null)
             ->where('is_complete', 0)
             ->with(['products' => function($q) use($product) {
                 $q->where('product_id', $product);

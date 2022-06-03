@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProductOrdered;
 use App\Http\Requests\CheckoutRequest;
 use App\Models\Category;
 use App\Models\Order;
@@ -34,13 +35,12 @@ class CheckoutController extends Controller
 
         $order->products()->attach(['product_id' => $product->id]);
         $order->syncChanges();
+
         return redirect()->back()->with('success', 'added to cart.');
     }
 
     public function index()
     {
-
-
         return Inertia::render('Checkout/Checkout',[
             'productsInCart' => Order::productsInCart(),
         ]);
@@ -55,20 +55,22 @@ class CheckoutController extends Controller
 
     public function processPayment(Request $request)
     {
-        try {
+//        try {
         $stripeCharge = $request->user()->charge(
             $request->user['customerAmount'] * 100, $request->user['paymentMethodId']
         );
 
-        $order = Order::getOrder();
+        $order = Order::productsInCart()[0];
         $order->is_complete = 1;
         $order->save();
 
+        event(new ProductOrdered($order, auth()->user()));
+
         return redirect()->route('checkout.summary', ['order' => $order])->with('success', 'Order has been processed');
 
-        } catch(Exception $e) {
-            throw new Exception("Something went wrong $e");
-        }
+//        } catch(Exception $e) {
+//            throw new Exception("Something went wrong $e");
+//        }
     }
 
     public function summaryIndex()
