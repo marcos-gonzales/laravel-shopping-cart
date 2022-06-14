@@ -6,11 +6,11 @@
                 <div v-for="(productInCart, key) in productsInCart" :key="key">
                     <div v-for="(product, key) in productInCart.products" :key="key" class="gap-x-8 border border-sky-100 py-6 px-2 bg-slate-700 w-3/4 my-12 grid grid-cols-1 md:grid-cols-3 rounded">
                         <div class="flex items-center">
-                            <img :src="product.file_path" alt="{{product.name}}" style="height: 100px; width: 100px; word-break: keep-all" class="col-span-1 border-2 border-gray-600">
+<!--                            <img :src="product.file_path" alt="{{product.name}}" style="height: 100px; width: 100px; word-break: keep-all" class="col-span-1 border-2 border-gray-600">-->
+                             <img :src="'http://localhost:8000/storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">
                         </div>
                         <div class="flex flex-col items-start">
                             <h3 class="text-lg text-center text-gray-200 font-bold capitalize" v-text="product.name"></h3>
-<!--                             <img :src="'storage/products/' + product.id + '/' +  product.file_path" :alt="product.name">-->
                             <small class="text-lg text-lime-500"><span class="text-yellow-400">$</span>{{ parseInt(product.price).toFixed(2) }}</small>
                             <small class="text-gray-400">qty: {{product.pivot.quantity}}</small>
                         </div>
@@ -31,12 +31,12 @@
                         <span class="text-yellow-300 contrast-125 mr-2 font-bold">
                             today:
                         </span>
-                        ${{total.reduce((num, a) => (num + Number(a)), 0)}}
+                        ${{total.reduce((num, a) => (num + Number(a)), 0).toFixed(2)}}
                     </p>
 
                     <div class="mt-4">
                         <label>Card Holder Name</label>
-                        <input id="card-holder-name" type="text" class="pl-1 mb-2 text-gray-400 w-full" placeholder="John Doe..">
+                        <input id="card-holder-name" type="text" class="pl-1 mb-2 text-black w-full placeholder-gray-500" placeholder="John Doe..">
                     </div>
 
                     <label>Card Number</label>
@@ -44,7 +44,7 @@
 
                     </div>
 
-                    <button class="text-sm p-2 border border-black w-1/2 flex justify-center mx-auto rounded text-gray-200 ease-in duration-200
+                    <button class="text-sm p-2 mt-4 border border-black w-1/2 flex justify-center mx-auto rounded text-gray-200 ease-in duration-200
                         bg-sky-500 capitalize hover:bg-pink-400 hover:text-white" @click="processPayment">
                         Purchase now
                     </button>
@@ -132,7 +132,7 @@ export default {
         const elements = this.stripe.elements();
         this.cardElement = elements.create('card', {
             classes: {
-                base: 'bg-white p-1 text-gray-400'
+                base: 'bg-white p-1 text-gray-400 placeholder:gray-500'
             }
         });
 

@@ -32,12 +32,12 @@ class DatabaseSeeder extends Seeder
         Category::create(['name' => 'computers', 'slug' => 'computers']);
         Category::create(['name' => 'miscellaneous', 'slug' => 'miscellaneous']);
 
-        Product::factory()->count(50)->create();
+//        Product::factory()->count(50)->create();
 
-        $categories = Category::all();
+//        $categories = Category::all();
         User::create(['name' => 'Marcos Gonzales', 'email' => 'marcos@example.org', 'password' => bcrypt('123456'), 'terms_of_service' => 1, 'is_admin' => 1]);
-        Product::all()->each(function ($product) use($categories) {
-            $product->categories()->attach($categories->random(rand(1, 2))->pluck('id', 'name')->toArray());
-        });
+//        Product::all()->each(function ($product) use($categories) {
+//            $product->categories()->attach($categories->random(rand(1, 2))->pluck('id', 'name')->toArray());
+//        });
     }
 }

@@ -7,8 +7,8 @@
         <div v-if="showNav">
             <header class="border-b-2-gray-800 py-4 px-1">
                 <nav>
-                    <ul class="flex flex-col justify-end space-x-2 mx-1">
-                        <div class="grid grid-cols-2 justify-center">
+                    <ul class="grid grid-cols-2 justify-center">
+<!--                        <div class="grid grid-cols-2 justify-center">-->
                             <Link href="/" class="text-xl hover:text-gray-400 grow">
                                 <img src='/images/logo.png' alt="logo" style="width: 35px; border-radius: 20px;">
                             </Link>
@@ -16,9 +16,8 @@
                             <Link v-if="$page.props.user" href="/checkout/order" style="padding: 0 1em;">
                                 <i class="fa-solid fa-cart-shopping drop-shadow-md"></i>
                             </Link>
-                        </div>
+<!--                        </div>-->
 
-                        <div class="grid grid-cols-2 justify-center">
                             <Link v-if="!$page.props.user" href="/login" class="hover:text-gray-400">
                                 Login
                             </Link>
@@ -32,9 +31,7 @@
                                     Logout <i class="fa-solid fa-heart-crack text-red-600"></i>
                                 </button>
                             </form>
-                        </div>
 
-                        <div class="grid grid-cols-2 justify-center">
                             <form @keyup="search" class="grow text-gray-500" style="margin-left: 0; margin-right: 0;">
                                 <input  class="rounded w-3/4" type="search" placeholder="search product.." v-model="query">
                             </form>
@@ -44,7 +41,6 @@
                                     {{category.slug}}
                                 </option>
                             </select>
-                        </div>
                     </ul>
                 </nav>
             </header>
@@ -56,10 +52,6 @@
                     <Link href="/" class="text-xl hover:text-gray-400 grow">
                         <img src='/images/logo.png' alt="logo" style="width: 35px; border-radius: 20px;">
                     </Link>
-
-                    <form @keyup="search" class="grow text-gray-500">
-                        <input  class="rounded p-2" type="search" placeholder="search product.." v-model="query">
-                    </form>
 
                     <select class="bg-gray-900 border border-gray-400 cursor-pointer rounded">
                         <option v-for="category in categories" @click="categoriesIndex(category.id)">
@@ -81,7 +73,7 @@
                         Login
                     </Link>
 
-                    <Link v-if="$page.props.user" href="/checkout/summary" class="hover:text-gray-400 flex items-center">My Orders</Link>
+
 
                     <form  v-if="$page.props.user" @submit.prevent="logout" class="items-center flex">
                         <button class="hover:text-gray-400" method="post">
@@ -92,6 +84,12 @@
                 </ul>
             </nav>
         </header>
+        <div class="grid grid-cols-2 p-4  border-2 border-t-white border-b-white bg-slate-700">
+            <form @keyup="search" class="text-gray-500 justify-self-center">
+                <input  class="rounded p-2" type="search" placeholder="search product.." v-model="query">
+            </form>
+            <Link v-if="$page.props.user" href="/checkout/summary" class="hover:text-gray-400 justify-self-center">My Orders</Link>
+        </div>
         <div class="container w-3/4 mx-auto" style="margin-top: 2em;">
         <FlashMessages :success="success" :errors="errors"/>
             <slot />

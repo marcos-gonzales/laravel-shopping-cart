@@ -38,6 +38,7 @@ class Product extends Model
                 $query->where('slug', 'like', '%' . $q . '%')
                     ->orWhere('description', 'like', '%' . $q . '%');
             })->paginate();
+
     }
 
     public function scopeShowProduct($query, $id) :Product

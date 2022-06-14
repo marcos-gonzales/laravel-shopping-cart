@@ -4,7 +4,8 @@
             <div v-for="product in order" class="gap-x-8 border border-sky-100 py-6 px-2 bg-slate-700 w-3/4 my-6 flex max-h-48 rounded grid-flow-col col-span-2">
                 <div>
                     <small class="text-blue-500">{{moment(product.created_at)}}</small>
-                    <img :src="product.file_path" alt="{{product.name}}" style="height: 100px; width: 100px; word-break: keep-all" class="col-span-1 border-2 border-gray-600">
+<!--                    <img :src="product.file_path" alt="{{product.name}}" style="height: 100px; width: 100px; word-break: keep-all" class="col-span-1 border-2 border-gray-600">-->
+                   <img :src="'http://localhost:8000/storage/products' + product.id +  product.file_path" alt="{{product.name}}" style="height: 100px; width: 100px; word-break: keep-all" class="col-span-1 border-2 border-gray-600">
                 </div>
 
                 <div class="flex flex-col items-start">

@@ -59,12 +59,13 @@ import { Inertia } from "@inertiajs/inertia";
 
 export default {
     setup() {
+        let count = 0;
         const form = useForm({
             name: null,
             description: null,
             price: null,
             slug: null,
-            category: null,
+            category: [],
             file_upload: null
         });
 
@@ -75,7 +76,9 @@ export default {
         }
 
         function updateCategory(event) {
-            form.category = event.target.value;
+            console.log(event.target.selectedOptions[count].value);
+            form.category.push(event.target.selectedOptions[count].value);
+            count++
         }
 
         return {

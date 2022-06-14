@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductStoreRequest;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
@@ -14,6 +15,16 @@ use Inertia\Response;
 
 class ProductController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')
+            ->only([
+                'create',
+                'store',
+                'delete'
+            ]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,8 +32,15 @@ class ProductController extends Controller
      */
     public function index(Product $product) :Response
     {
+
+        Request::input('page') ? $request =  Request::input('page', 1) : $request = Request::input('query', 1);
+
+        $products = Cache::remember('products-page-' . $request, now()->addMinutes(1), function() {
+          return Product::getProducts();
+        });
+
         return Inertia::render('Product/Index', [
-            'products' => Product::getProducts()
+            'products' => $products
         ]);
 
     }
@@ -48,7 +66,7 @@ class ProductController extends Controller
     public function store(ProductStoreRequest $request)
     {
         $slug = Str::slug(Request::input('name'));
-        $product = Product::create(array_merge($request->validated(), ['slug' => $slug, 'price' => $request->price * 100]));
+        $product = Product::create(array_merge($request->validated(), ['slug' => $slug, 'price' => $request->price]));
 
         $image = Request::file('file_upload')->getClientOriginalName();
         Request::file('file_upload')->storeAs('public/products/' .$product->id, $image);
@@ -56,7 +74,7 @@ class ProductController extends Controller
         $product->update(['file_path' => $image]);
         $product->categories()->attach(Request::input('category'));
 
-        return redirect()->route('shop.index')->with('success', 'Product successfully created.');
+        return redirect()->route('product.index')->with('success', 'Product successfully created.');
 
     }
 
